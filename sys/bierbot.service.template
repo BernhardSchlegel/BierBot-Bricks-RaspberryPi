@@ -1,0 +1,14 @@
+[Unit]
+Description=runs the BierBot Bricks RaspberryPi client after startup
+After=network.target
+
+[Service]
+ExecStart=python /home/pi/Desktop/BierBot-Bricks-RaspberryPi/main.py
+WorkingDirectory=/home/pi/Desktop/BierBot-Bricks-RaspberryPi/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

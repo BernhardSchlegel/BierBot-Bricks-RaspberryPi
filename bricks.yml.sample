@@ -1,0 +1,17 @@
+apikey: asd123
+device_id: python_RaspberryPi_0b71c8de-f927-11eb-bde7-001a7dda7110
+meta:
+  create_autostart: true
+  created: 1628523155415
+  platform: RaspberryPi
+relays:
+- gpio: 1
+  invert: true
+- gpio: 2
+  invert: true
+- gpio: 3
+  invert: true
+start_fullscreen: true
+temperature_sensors:
+- aaa
+- bb
