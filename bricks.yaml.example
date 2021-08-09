@@ -1,0 +1,16 @@
+apikey: beer123424242
+device_id: python_RaspberryPi_3cd31fbc-f93c-11eb-aa88-dca63249706e
+meta:
+  create_autostart: true
+  created: 1628532209020
+  platform: RaspberryPi
+relays:
+- gpio: 19
+  invert: false
+- gpio: 37
+  invert: true
+start_fullscreen: true
+temperature_sensors:
+- aaa
+- bb
+- 3c01e076beb7
