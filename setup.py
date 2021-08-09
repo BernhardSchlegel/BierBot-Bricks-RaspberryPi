@@ -2,6 +2,8 @@ import click
 import yaml
 import time
 import uuid
+from w1thermsensor import W1ThermSensor
+import os
 
 config = {
     "meta": {
@@ -36,7 +38,7 @@ def main(apikey, platform, relays):
         gpio = click.prompt(f"Please enter the GPIO number for relay {i+1} (e.g. GPIO26 would be 37)",
                      type=click.INT)
         invert = click.prompt(f"Do you want to invert relay {i+1}?",
-                            default="y",
+                            default="n",
                             type=click.BOOL)
         click.echo(f"setting relais {i+1} to GPRIO{gpio} (inverted={invert})..")
         config["relays"].append({
@@ -48,11 +50,16 @@ def main(apikey, platform, relays):
                   default="y")
     n_temperature_probes_found = 0
     if scan:
-        temperature_sensor_id = ["aaa", "bb"]
-        n_temperature_probes_found = len(temperature_sensor_id)
+        temperature_sensor_ids = []
+        
+        for sensor in W1ThermSensor.get_available_sensors():
+            click.echo("Sensor found: %s (T=%.2f°C)" % (sensor.id, sensor.get_temperature()))
+            temperature_sensor_ids.append(sensor.id)
+            
+        n_temperature_probes_found = len(temperature_sensor_ids)
         click.echo(f"{n_temperature_probes_found} temperature probes found")
 
-        for tsId in temperature_sensor_id:
+        for tsId in temperature_sensor_ids:
             click.echo(f"saving sensor {tsId} to config..")
             config["temperature_sensors"].append(tsId)
 
@@ -64,8 +71,27 @@ def main(apikey, platform, relays):
                                     type=click.BOOL)
     if create_autostart:
         click.echo("creating autostart...")
-        # sudo cp ./sys/bierbot.service.template /etc/systemd/system/bierbot.service.template
-        # sudo systemctl enable bierbot.service.template
+        currentDirectory = os.getcwd()
+        
+        click.echo("creating autostart file ./sys/bierbot.service...")
+        
+        # Using readlines()
+        template_file = open('./sys/bierbot.service.template', 'r')
+        lines = template_file.readlines()
+        lines_ready = [line.replace("$$$REPO_ROOT$$$", currentDirectory) for line in lines]
+        template_file.close()
+        
+        # writing to file
+        out_file = open('./sys/bierbot.service', 'w')
+        out_file.writelines(lines_ready)
+        out_file.close()
+ 
+        click.echo("copying service file to final location...")
+        res = os.system("sudo cp ./sys/bierbot.service /etc/systemd/system/bierbot.service")
+        click.echo(f"returned {res}. OK={res==0}")
+        click.echo("enabling autostart...")
+        res = os.system("sudo systemctl enable bierbot.service")
+        click.echo(f"returned {res}. OK={res==0}")
 
     start_fullscreen = False
     if create_autostart:
@@ -79,14 +105,15 @@ def main(apikey, platform, relays):
     if n_temperature_probes_found + int(relays) > 3:
         click.secho("WARNING: Currently, only 3 interfaces (Relay + Temperaure) are supported.", fg='yellow', bold=True)
 
-    with open('bricks.yml.sample', 'w') as outfile:
+    with open('bricks.yaml', 'w') as outfile:
         yaml.dump(config, outfile, default_flow_style=False)
-        click.echo("config file bricks.yml.sample created.")
+        click.echo("config file bricks.yml created.")
 
     reboot = click.confirm(f"all done. Setup will exit. Do you want to reboot your {platform} (recommended)?",
                   default="y")
     if reboot:
         click.echo("rebooting now")
+        res = os.system("sudo shutdown -r now")
 
 if __name__ == '__main__':
     main()
