@@ -3,8 +3,8 @@ Description=runs the BierBot Bricks RaspberryPi client after startup
 After=network.target
 
 [Service]
-ExecStart=python /home/pi/Desktop/BierBot-Bricks-RaspberryPi/main.py
-WorkingDirectory=/home/pi/Desktop/BierBot-Bricks-RaspberryPi/
+ExecStart=python3 $$$REPO_ROOT$$$/main.py
+WorkingDirectory=$$$REPO_ROOT$$$
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
