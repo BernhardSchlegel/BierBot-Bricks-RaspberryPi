@@ -11,6 +11,7 @@ Open a commandline (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>), navigate
 
 ```bash
 git clone https://github.com/BernhardSchlegel/BierBot-Bricks-RaspberryPi.git
+cd BierBot-Bricks-RaspberryPi
 pip3 install -r requirements.txt
 python3 setup.py
 ```
