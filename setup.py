@@ -113,6 +113,7 @@ def main(apikey, platform, relays):
         else:
             os.system('echo "chromium-browser https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
 
+    config["start_ui"] = start_ui
     config["start_fullscreen"] = start_fullscreen
     config["meta"]["create_autostart"] = create_autostart
 
