@@ -89,6 +89,8 @@ def main(apikey, platform, relays):
         click.echo("copying service file to final location...")
         res = os.system("sudo cp ./sys/bierbot.service /etc/systemd/system/bierbot.service")
         click.echo(f"returned {res}. OK={res==0}")
+        res = os.system("sudo chmod 644 /etc/systemd/system/bierbot.service")
+        click.echo(f"chmodding went OK={res==0}")
         click.echo("enabling autostart...")
         res = os.system("sudo systemctl enable bierbot.service")
         click.echo(f"returned {res}. OK={res==0}")

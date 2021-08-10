@@ -4,6 +4,7 @@ import sys
 import time
 import json
 import yaml # reading the config
+import os
 import RPi.GPIO as GPIO 
 from w1thermsensor import W1ThermSensor
 
@@ -52,7 +53,17 @@ def setRelay(number=0, state=0):
     config["relays"][number]["state"] = state
     gpio_number = config["relays"][number]["gpio"]
     logging.info(f"setting relay {number+1} (GPIO {gpio_number}) to {state}...")
-    GPIO.output(gpio_number, state)
+    corrected_state = -1
+    invert = config["relays"][number]["invert"]
+    if invert:
+        if state == 0:
+            corrected_state = 1
+        else:
+            corrected_state = 0
+        
+        logging.info(f"inverted {state} to {corrected_state}")
+    
+    GPIO.output(gpio_number, corrected_state)
         
         
 def getRelay(number=0):
@@ -118,18 +129,18 @@ def request():
         logging.warning("failed processing request: " + response.text)
         time.sleep(60)
 
-import time
-
-def current_milli_time():
-    return round(time.time() * 1000)
+def launchKioskMode():
+    # no kiosk, to maxe exit easier
+    res = os.system('chromium-browser --start-fullscreen https://bricks.bierbot.com/#/status') 
   
 def run():
     initRelays()
+    
+    if config["start_fullscreen"]:
+        launchKioskMode()
 
     while True:
-        msStart = current_milli_time()
         request()
-        msPassed = current_milli_time() - msStart
 
 if __name__ == '__main__':
     logging.info("BierBot Bricks RaspberryPi client started.")

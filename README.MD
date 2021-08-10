@@ -7,12 +7,12 @@ This repo is under heavy development. Using it is not recommended at this point.
 
 ## Getting started
 
-Open a commandline (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd>), navigate to your desired folder (e.g. `cd ~/Desktop`) and run the following commands:
+Open a commandline (<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>), navigate to your desired folder (e.g. `cd ~/Desktop`) and run the following commands:
 
 ```bash
 git clone https://github.com/BernhardSchlegel/BierBot-Bricks-RaspberryPi.git
 cd BierBot-Bricks-RaspberryPi
-pip3 install -r requirements.txt
+sudo pip3 install -r requirements.txt
 python3 setup.py
 ```
 
