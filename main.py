@@ -129,15 +129,8 @@ def request():
         logging.warning("failed processing request: " + response.text)
         time.sleep(60)
 
-def launchKioskMode():
-    # no kiosk, to maxe exit easier
-    res = os.system('chromium-browser --start-fullscreen https://bricks.bierbot.com/#/status') 
-  
 def run():
     initRelays()
-    
-    if config["start_fullscreen"]:
-        launchKioskMode()
 
     while True:
         request()

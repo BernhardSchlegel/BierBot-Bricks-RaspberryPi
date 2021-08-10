@@ -66,7 +66,7 @@ def main(apikey, platform, relays):
     config["apikey"] = apikey
     config["device_id"] = "python_" + platform + "_" + str(uuid.uuid1())
 
-    create_autostart = click.prompt(f"Do you want us to add the BierBot Bricks software to autostart / bootup?",
+    create_autostart = click.prompt(f"Do you want us to add the BierBot Bricks service to autostart / bootup?",
                                     default="y",
                                     type=click.BOOL)
     if create_autostart:
@@ -96,10 +96,22 @@ def main(apikey, platform, relays):
         click.echo(f"returned {res}. OK={res==0}")
 
     start_fullscreen = False
-    if create_autostart:
+    
+
+    start_ui = click.prompt(f"Do you the BierBot Bricks UI to be started on startup?",
+                                    default="y",
+                                    type=click.BOOL)
+    
+    if create_autostart and start_ui:
         start_fullscreen = click.prompt(f"Do you want the status screen to be started in fullscreen?",
                                         default="y",
                                         type=click.BOOL)
+        
+        if  start_fullscreen:
+            # sudo tee necessary instead of &>> because of "sudo" requirements
+            os.system('echo "chromium-browser --start-fullscreen https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
+        else:
+            os.system('echo "chromium-browser https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
 
     config["start_fullscreen"] = start_fullscreen
     config["meta"]["create_autostart"] = create_autostart
