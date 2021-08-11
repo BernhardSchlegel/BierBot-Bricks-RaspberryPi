@@ -109,9 +109,9 @@ def main(apikey, platform, relays):
         
         if  start_fullscreen:
             # sudo tee necessary instead of &>> because of "sudo" requirements
-            os.system('echo "chromium-browser --start-fullscreen https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
+            os.system('echo "chromium-browser --start-fullscreen --disable-session-crashed-bubble --disable-infobars https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
         else:
-            os.system('echo "chromium-browser https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
+            os.system('echo "chromium-browser --disable-session-crashed-bubble --disable-infobars https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart')
 
     config["start_ui"] = start_ui
     config["start_fullscreen"] = start_fullscreen
