@@ -13,7 +13,7 @@ Open a commandline (<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>), navigate t
 git clone https://github.com/BernhardSchlegel/BierBot-Bricks-RaspberryPi.git
 cd BierBot-Bricks-RaspberryPi
 sudo pip3 install -r requirements.txt
-python3 setup.py
+sudo python3 setup.py
 ```
 
 Setup will guide you through the installation. :information_source: Hint: You can accept the proposed default value by hitting <kbd>Return</kbd>.
