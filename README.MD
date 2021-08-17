@@ -1,6 +1,6 @@
 # Raspberry Pi mashing and fermentation controller
 
-This code will turn you Raspberry Pi into a mashing or fermentation controller. Setup is super-simple. 
+This code will turn you Raspberry Pi into a mashing or fermentation controller to automate all parts of your beer brewing process. Setup is super-simple. 
 
 ## Key features
 
