@@ -5,7 +5,7 @@ This code will turn you Raspberry Pi into a mashing or fermentation controller. 
 ## Key features
 
 - Super easy setup and easy to try out (have a spare SD card?)
-- Runs on Raspberry Pi ([compatible Pis](#compatibility))
+- Runs on Raspberry Pi ([compatible Pis](#raspberry-pi-compatibility))
 - Various kettle setups supported: BIAB, RIMS, HERMS (soon).
 - Free, open source license (GPT-v3)
 - PDI controller that works with a simple and cheap non PWM/SSR relay and yet eliminates temperature overshoots.
