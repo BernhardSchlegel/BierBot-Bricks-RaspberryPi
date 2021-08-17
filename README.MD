@@ -1,9 +1,35 @@
-# BierBot Bricks RaspberryPi Client
+# Raspberry Pi mashing and fermentation controller
 
-This repo is under heavy development. Using it is not recommended at this point. Shoot us a message hello@bierbot.com if you want to be notified when the alpha is released.
+This code will turn you Raspberry Pi into a mashing or fermentation controller. Setup is super-simple. 
 
-- Tested on Python 3.8
-- Tested on RaspberryPi 4
+## Key features
+
+- Super easy setup and easy to try out (have a spare SD card?)
+- Runs on Raspberry Pi ([compatible Pis](#compatibility))
+- Various kettle setups supported: BIAB, RIMS, HERMS (soon).
+- Free, open source license (GPT-v3)
+- PDI controller that works with a simple and cheap non PWM/SSR relay and yet eliminates temperature overshoots.
+- Mashing controller and fermentation controller, both with automatic timer control.
+- Multi-language (German, English, (soon) Portugese, (soon) Finnish, pull-requests welcome!)
+- Integrated recipe management: Set the temperature, the time, etc.
+- Integrated logging: See your temperature log during the mash and export a PDF after brewing
+- User authentication
+- Access from everywhere
+- Found a brewery and invite friends to share equipment, recipes, etc.
+- Works perfectly on any Smartphone, Tablet, PC or Mac (or any web browser)
+- Beer.XML import
+- Configurable units for temperature (Celsius/Fahrenheit), gravity (°Plato, specific gravity), volumne (Liters, Gallons), weight (Grams, pounds) etc.
+- Control agitators, pumps, valves.
+
+## Screenshots
+
+### Mashing
+
+TODO
+
+### Fermentation
+
+TODO
 
 ## Getting started
 
@@ -17,3 +43,119 @@ sudo python3 setup.py
 ```
 
 Setup will guide you through the installation. :information_source: Hint: You can accept the proposed default value by hitting <kbd>Return</kbd>.
+
+Tested on Python 3.7
+
+## Raspberry Pi compatibility 
+
+The install script and software has been tested on the following
+Raspberry Pis ([source](https://de.wikipedia.org/wiki/Raspberry_Pi)):
+
+<table>
+   <thead>
+      <tr>
+         <th>Raspberry Pi</th>
+         <th colspan=4>1</th>
+         <th colspan=2>2</th>
+         <th colspan=3>3</th>
+         <th colspan=1>4</th>
+      </tr>
+         <tr>
+            <th>Type</th>
+            <th>A</th>
+            <th>A+</th>
+            <th>B</th>
+            <th>B+</th>
+            <th>B</th>
+            <th>B v1.2</th>
+            <th>A+</th>
+            <th>B v.1.2</th>
+            <th>B+</th>
+            <th>B</th>
+         </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td>ARM</td>
+         <td align="center" colspan=4>ARMv6 (32 Bit)</td>
+         <td>ARMv7 (32Bit)</td>
+         <td align="center"colspan=5>ARMv8 (64 Bit)</td>
+      </tr>
+      <tr>
+         <td>Power to first contact</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>TBD</td>
+     </tr>
+      <tr>
+         <td>WiFi onboard</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:heavy_check_mark:</td>
+         <td>:heavy_check_mark:</td>
+         <td>:heavy_check_mark:</td>
+         <td>:heavy_check_mark:</td>
+      </tr>
+      <tr>
+         <td>Bluetooth onboard</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:x:</td>
+         <td>:heavy_check_mark:</td>
+         <td>:heavy_check_mark:</td>
+         <td>:heavy_check_mark:</td>
+         <td>:heavy_check_mark:</td>
+      </tr>
+      <tr align="center">
+         <td>setupscript</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>:heavy_check_mark:</td>
+      </tr>
+      <tr align="center">
+         <td>software</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>:heavy_check_mark:</td>
+      </tr>
+   </tbody>
+</table>
+
+**TL;DR**: Get the cheapest one! Keep in mind you will need WiFi (so getting an Pi 3 or Pi 4 is probably worth the price). Also, Pi 3 and 4 support bluetooth - which is handy if you want to use it as bridge for you TILT.
+
+If you happen to own one of the models with a blank cell, [shoot us a message](https://bierbot.com/contact/)!
+
+## License
+
+-   The Code: [GPL-3.0](http://opensource.org/licenses/MIT)
+-   Orange Mash BierBot Logo: (c) by Bernhard Schlegel, all rights reserved.
+
+Copyright (c) 2021-present, Bernhard Schlegel
