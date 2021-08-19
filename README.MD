@@ -20,6 +20,7 @@ This code will turn you Raspberry Pi into a mashing or fermentation controller t
 - Beer.XML import
 - Configurable units for temperature (Celsius/Fahrenheit), gravity (°Plato, specific gravity), volumne (Liters, Gallons), weight (Grams, pounds) etc.
 - Control agitators, pumps, valves.
+- Missing something❓  [tell us!](https://github.com/BernhardSchlegel/BierBot-Bricks-RaspberryPi/issues/new) 🗨️
 
 ## Screenshots
 
