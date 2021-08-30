@@ -24,6 +24,10 @@ This code will turn you Raspberry Pi into a mashing or fermentation controller t
 
 ## Screenshots
 
+### Sample Build
+
+![Rasbperry Pi Brewing control using BierBot Bricks](docs/real.jpg)
+
 ### Mashing
 
 TODO
