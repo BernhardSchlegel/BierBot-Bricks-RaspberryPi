@@ -12,7 +12,7 @@ There is a extensive step-by-step tutorial how to build one yourself available o
 - Free, open source license (GPT-v3)
 - PDI controller that works with a simple and cheap non PWM/SSR relay and yet eliminates temperature overshoots.
 - Mashing controller and fermentation controller, both with automatic timer control.
-- Multi-language (German, English, (soon) Portugese, (soon) Finnish, pull-requests welcome!)
+- Multi-language (German, English, Portugese, (soon) Finnish, [tell us](https://bierbot.com/contact/) if you want to help!)
 - Integrated recipe management: Set the temperature, the time, etc.
 - Integrated logging: See your temperature log during the mash and export a PDF after brewing
 - User authentication
@@ -20,7 +20,7 @@ There is a extensive step-by-step tutorial how to build one yourself available o
 - Found a brewery and invite friends to share equipment, recipes, etc.
 - Works perfectly on any Smartphone, Tablet, PC or Mac (or any web browser)
 - Beer.XML import
-- Configurable units for temperature (Celsius/Fahrenheit), gravity (°Plato, specific gravity), volumne (Liters, Gallons), weight (Grams, pounds) etc.
+- Configurable units for temperature (Celsius/Fahrenheit), gravity (°Plato, specific gravity), volume (Liters, Gallons), weight (Grams, pounds) etc.
 - Control agitators, pumps, valves.
 - Missing something❓  [tell us!](https://github.com/BernhardSchlegel/BierBot-Bricks-RaspberryPi/issues/new) 🗨️
 
