@@ -68,7 +68,9 @@ def setRelay(number=0, state=0):
         
 def getRelay(number=0):
     return config["relays"][number]["state"] # TODO: get from GPIO?
-    
+
+last_temps = {}
+
 def request():
 
     logging.info("starting request");
@@ -92,10 +94,16 @@ def request():
     # add temperatures to request
     for i, sensor_id in enumerate(config["temperature_sensors"]):
         key = f"s_number_temp_{i}"
-        
-        sensor = W1ThermSensor(sensor_id=sensor_id)
-        temperature = sensor.get_temperature()
-        
+        try:
+            sensor = W1ThermSensor(sensor_id=sensor_id)
+            temperature = sensor.get_temperature()
+            last_temps[sensor_id] = temperature
+        except:
+            logging.error("sensor was not ready, using last temp")
+            if sensor_id in last_temps:
+                temperature = last_temps[sensor_id]
+            else:
+                temperature = -42
         value = str(temperature)
         post_fields[key] = value
         logging.info(f"set tempsensor {i} with id {sensor_id} to {temperature}")
