@@ -32,11 +32,11 @@ There is a extensive step-by-step tutorial how to build one yourself available o
 
 ### Mashing
 
-TODO
+![Display in mashing](docs/brewery_control_mashing_small_1080.png)
 
 ### Fermentation
 
-TODO
+![Display during fermentation](docs/brewery_control_fermentation_small_1080.png)
 
 ## Getting started
 
