@@ -89,19 +89,6 @@ Raspberry Pis ([source](https://de.wikipedia.org/wiki/Raspberry_Pi)):
          <td align="center"colspan=5>ARMv8 (64 Bit)</td>
       </tr>
       <tr>
-         <td>Power to first contact</td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td></td>
-         <td>TBD</td>
-     </tr>
-      <tr>
          <td>WiFi onboard</td>
          <td>:x:</td>
          <td>:x:</td>
