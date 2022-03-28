@@ -8,7 +8,7 @@ There is a extensive step-by-step tutorial how to build one yourself available o
 
 - Super easy setup and easy to try out (have a spare SD card?)
 - Runs on Raspberry Pi ([compatible Pis](#raspberry-pi-compatibility))
-- Various kettle setups supported: BIAB, RIMS, HERMS (soon).
+- Various kettle setups supported: BIAB, RIMS, HERMS.
 - Free, open source license (GPT-v3)
 - PDI controller that works with a simple and cheap non PWM/SSR relay and yet eliminates temperature overshoots.
 - Mashing controller and fermentation controller, both with automatic timer control.
