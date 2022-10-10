@@ -4,6 +4,8 @@ This code will turn you Raspberry Pi into a mashing or fermentation controller t
 
 There is a extensive step-by-step tutorial how to build one yourself available on the [BierBot.com Blog](https://bierbot.com/blog/howto/howto-build-a-raspberry-pi-based-brewing-control/).
 
+If don't want to do all the electronics/wiring yourself, check out [this alternate WiFi switch firmware](https://github.com/BernhardSchlegel/Brick-32) which runs the same software.
+
 ## Key features
 
 - Super easy setup and easy to try out (have a spare SD card?)
