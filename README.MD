@@ -34,9 +34,13 @@ If don't want to do all the electronics/wiring yourself, check out [this alterna
 
 ### Mashing
 
+:information_source: You can go to this screen manually by clicking on the temperature if a brew is active.
+
 ![Display in mashing](docs/brewery_control_mashing_small_1080.png)
 
 ### Fermentation
+
+:information_source: You can go to this screen manually by clicking on the temperature if a brew is active.
 
 ![Display during fermentation](docs/brewery_control_fermentation_small_1080.png)
 
