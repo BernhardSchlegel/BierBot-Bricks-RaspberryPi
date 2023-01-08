@@ -11,7 +11,7 @@ If don't want to do all the electronics/wiring yourself, check out [this alterna
 - Super easy setup and easy to try out (have a spare SD card?)
 - Runs on Raspberry Pi ([compatible Pis](#raspberry-pi-compatibility))
 - Various kettle setups supported: BIAB, RIMS, HERMS.
-- Free, open source license (GPT-v3)
+- Free, open source license (GPL-v3)
 - PDI controller that works with a simple and cheap non PWM/SSR relay and yet eliminates temperature overshoots.
 - Mashing controller and fermentation controller, both with automatic timer control.
 - Multi-language (German, English, Portugese, (soon) Finnish, [tell us](https://bierbot.com/contact/) if you want to help!)
