@@ -3,6 +3,7 @@ import yaml
 import time
 import uuid
 from w1thermsensor import W1ThermSensor
+from mcp9600 import MCP9600, I2C_ADDRESSES
 import os
 
 config = {
@@ -12,7 +13,8 @@ config = {
     },
     "apikey": "",
     "device_id": "",
-    "temperature_sensors": [],
+    "temperature_sensors_mcp9600": [],
+    "temperature_sensors_w1": [],
     "relays": []
 }
 
@@ -48,20 +50,36 @@ def main(apikey, platform, relays):
 
     scan = click.confirm(f"Do you want to scan for temperature probes now?",
                   default="y")
-    n_temperature_probes_found = 0
     if scan:
-        temperature_sensor_ids = []
         
-        for sensor in W1ThermSensor.get_available_sensors():
-            click.echo("Sensor found: %s (T=%.2f°C)" % (sensor.id, sensor.get_temperature()))
-            temperature_sensor_ids.append(sensor.id)
+        for sensor_type in ("w1", "mcp9600"):
+            if click.confirm(f"Scan for {sensor_type!r} sensors?", default="y"):
             
-        n_temperature_probes_found = len(temperature_sensor_ids)
-        click.echo(f"{n_temperature_probes_found} temperature probes found")
+                config_key = f"temperature_sensors_{sensor_type}"
+                n_temperature_probes_found = 0
+                temperature_sensor_ids = []
 
-        for tsId in temperature_sensor_ids:
-            click.echo(f"saving sensor {tsId} to config..")
-            config["temperature_sensors"].append(tsId)
+                if sensor_type == "w1":
+        
+                    for sensor in W1ThermSensor.get_available_sensors():
+                        click.echo("Sensor found: %s (T=%.2f°C)" % (sensor.id, sensor.get_temperature()))
+                        temperature_sensor_ids.append(sensor.id)
+            
+                elif sensor_type =='mcp9600':
+                    
+                    for addr in I2C_ADDRESSES:
+                        try:
+                            device = MCP9600(i2c_addr=addr)
+                        except RuntimeError:
+                            continue
+                        click.echo(f"Sensor found: {addr=} {device.get_hot_junction_temperature()}")
+                        temperature_sensor_ids.append(device._i2c_addr)
+            
+                n_temperature_probes_found = len(temperature_sensor_ids)
+                click.echo(f"{n_temperature_probes_found} temperature probes found")
+                config.setdefault(config_key, [])
+                config[config_key].extend(temperature_sensor_ids)
+
 
     config["apikey"] = apikey
     config["device_id"] = "python_" + platform + "_" + str(uuid.uuid1())

@@ -7,6 +7,7 @@ import yaml # reading the config
 import os
 import RPi.GPIO as GPIO 
 from w1thermsensor import W1ThermSensor
+from mcp9600 import MCP9600
 
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -71,6 +72,36 @@ def getRelay(number=0):
 
 last_temps = {}
 
+def getTemperature(sensor_type, sensor_id):
+    if sensor_type == "w1":
+        try:
+            sensor = W1ThermSensor(sensor_id=sensor_id)
+            temperature = sensor.get_temperature()
+            last_temps[sensor_id] = temperature
+        except:
+            logging.error(f"Could not read temperature for w1 device {sensor_id}")
+            if sensor_id in last_temps:
+                temperature = last_temps[sensor_id]
+            else:
+                temperature = -42
+
+    elif sensor_type =='mcp9600':
+        
+        try:
+            device = MCP9600(i2c_addr=sensor_id)
+        except RuntimeError:
+            logging.error(f"Could not initialise mcp9600 device {sensor_id}")
+        try:
+            temperature = device.get_hot_junction_temperature()
+        except:
+            logging.error(f"Could not read temperature for mcp9600 device {sensor_id}")
+            if sensor_id in last_temps:
+                temperature = last_temps[sensor_id]
+            else:
+                temperature = -42
+    return temperature
+
+
 def request():
 
     logging.info("starting request");
@@ -92,21 +123,15 @@ def request():
         logging.info(f"set relay {i} to {value}")
     
     # add temperatures to request
-    for i, sensor_id in enumerate(config["temperature_sensors"]):
-        key = f"s_number_temp_{i}"
-        try:
-            sensor = W1ThermSensor(sensor_id=sensor_id)
-            temperature = sensor.get_temperature()
-            last_temps[sensor_id] = temperature
-        except:
-            logging.error("sensor was not ready, using last temp")
-            if sensor_id in last_temps:
-                temperature = last_temps[sensor_id]
-            else:
-                temperature = -42
-        value = str(temperature)
-        post_fields[key] = value
-        logging.info(f"set tempsensor {i} with id {sensor_id} to {temperature}")
+    temp_sensor_count = 0
+    for sensor_type in ("w1", "mcp9600"):
+        for i, sensor_id in enumerate(config[f"temperature_sensors_{sensor_type}"], start=temp_sensor_count):
+            key = f"s_number_temp_{i}"
+            temperature = getTemperature(sensor_type, sensor_id)
+            value = str(temperature)
+            post_fields[key] = value
+            logging.info(f"set tempsensor {i} with id {sensor_id} to {temperature}")
+            temp_sensor_count +=1
 
     response = requests.get(url, params=post_fields)
     
