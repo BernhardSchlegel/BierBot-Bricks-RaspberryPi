@@ -1,15 +1,14 @@
 import requests
 import logging
-import sys
 import time
 import json
 import yaml # reading the config
-import os
 import RPi.GPIO as GPIO 
 from w1thermsensor import W1ThermSensor
-
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+try:
+    import httplib  # python < 3.0
+except:
+    import http.client as httplib
 
 from yaml.loader import SafeLoader
 
@@ -32,6 +31,7 @@ with open('./bricks.yaml') as f:
     
     logging.info(f"apikey={APIKEY}, device_id={CHIPID}, platform={TYPE}")
     
+last_temps = {}
 
 GPIO.setwarnings(False)
 def initRelays():
@@ -69,7 +69,16 @@ def setRelay(number=0, state=0):
 def getRelay(number=0):
     return config["relays"][number]["state"] # TODO: get from GPIO?
 
-last_temps = {}
+def haveInternet() -> bool:
+    # from https://stackoverflow.com/questions/3764291
+    conn = httplib.HTTPSConnection("8.8.8.8", timeout=5)
+    try:
+        conn.request("HEAD", "/")
+        return True
+    except Exception:
+        return False
+    finally:
+        conn.close()
 
 def request():
 
@@ -90,7 +99,7 @@ def request():
         value = getRelay(i)
         post_fields[key] = value
         logging.info(f"set relay {i} to {value}")
-    
+
     # add temperatures to request
     for i, sensor_id in enumerate(config["temperature_sensors"]):
         key = f"s_number_temp_{i}"
@@ -109,7 +118,7 @@ def request():
         logging.info(f"set tempsensor {i} with id {sensor_id} to {temperature}")
 
     response = requests.get(url, params=post_fields)
-    
+
     try:
         if response.text == "internal.":
             logging.info("please activate RasberryPi under https://bricks.bierbot.com > Bricks")
@@ -139,6 +148,11 @@ def request():
 
 def run():
     initRelays()
+
+    logging.info("checking for internet connection...")
+    while not haveInternet():
+        logging.info("No internet - sleeping for 1s.")
+        time.sleep(1)
 
     while True:
         request()
