@@ -62,8 +62,6 @@ def setRelay(number=0, state=0):
             corrected_state = 0
         
         logging.info(f"inverted {state} to {corrected_state}")
-    else:
-        corrected_state = state
     
     GPIO.output(gpio_number, corrected_state)
         
