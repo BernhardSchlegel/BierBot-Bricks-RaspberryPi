@@ -118,7 +118,7 @@ def main(apikey, platform, relays):
     config["meta"]["create_autostart"] = create_autostart
 
     if n_temperature_probes_found + int(relays) > 3:
-        click.secho("WARNING: Currently, only 3 interfaces (Relay + Temperaure) are supported.", fg='yellow', bold=True)
+        click.secho("WARNING: Currently, only 3 interfaces (Relay + Temperaure) are supported in the FREE tier.", fg='yellow', bold=True)
 
     with open('bricks.yaml', 'w') as outfile:
         yaml.dump(config, outfile, default_flow_style=False)
