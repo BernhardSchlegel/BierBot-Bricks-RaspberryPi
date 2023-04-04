@@ -105,6 +105,7 @@ def request():
     # add temperatures to request
     for i, sensor_id in enumerate(config["temperature_sensors"]):
         key = f"s_number_temp_{i}"
+        key_id = f"s_number_temp_id_{i}"  # s_number_temp_id_0=0x00003ffc3664
         try:
             sensor = W1ThermSensor(sensor_id=sensor_id)
             temperature = sensor.get_temperature()
@@ -117,6 +118,7 @@ def request():
                 temperature = -42
         value = str(temperature)
         post_fields[key] = value
+        post_fields[key_id] = sensor_id
         logging.info(f"set tempsensor {i} with id {sensor_id} to {temperature}")
 
     response = requests.get(url, params=post_fields)
