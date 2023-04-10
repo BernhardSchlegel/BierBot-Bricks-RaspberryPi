@@ -91,7 +91,7 @@ def request():
     post_fields = {
         "type": TYPE,
         "brand": "oss",
-        "version": "0.1",
+        "version": "0.2",
         "chipid": CHIPID,
         "apikey": APIKEY
     } # baseline
