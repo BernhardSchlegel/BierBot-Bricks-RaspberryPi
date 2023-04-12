@@ -12,7 +12,7 @@ except:
 
 from yaml.loader import SafeLoader
 
-logging.basicConfig(filename='./bricks.log', filemode='w+', level=logging.INFO, format="%(asctime)s;%(levelname)s;%(message)s", "%Y-%m-%d %H:%M:%S")
+logging.basicConfig(filename='./bricks.log', filemode='w+', level=logging.INFO, format="%(asctime)s;%(levelname)s;%(message)s", datefmt="%Y-%m-%d %H:%M:%S")
 logging.getLogger().addHandler(logging.StreamHandler())
 
 APIKEY = "tbd"
