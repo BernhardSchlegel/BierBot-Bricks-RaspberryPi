@@ -1,0 +1,6 @@
+black~=23.3.0
+flake8~=5.0.4
+mypy~=1.2.0
+isort~=5.11.5
+types-PyYAML~=6.0.12.9
+types-requests~=2.28.2
