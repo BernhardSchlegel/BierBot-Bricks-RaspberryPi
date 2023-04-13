@@ -30,4 +30,4 @@ jobs:
     - name: Run flake8
       run: flake8
     - name: Run Mypy
-      run: mypy --install-types
+      run: mypy
