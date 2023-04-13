@@ -24,11 +24,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements_dev.txt
-        mypy --install-types
     - name: Run black
       run:
         black --check .
     - name: Run flake8
       run: flake8
     - name: Run Mypy
-      run: mypy
+      run: mypy --install-types
