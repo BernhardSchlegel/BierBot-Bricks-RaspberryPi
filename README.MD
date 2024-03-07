@@ -73,9 +73,9 @@ cd BierBot-Bricks-RaspberryPi
 python3 -m venv --system-site-packages .env && source .env/bin/activate && pip install -r requirements.txt
 
 # Link virtual environment to system-level lgpio package. The lgpio package in combination with rpi-lgpio replaces RPi.GPIO in bookworm. The lgpio package is managed using apt which is not supported in virtual environments. This gets around that issue for now.
-ln -s /usr/lib/python3/dist-packages/lgpio.py /home/pi/BierBot-Bricks-RaspberryPi/.env/lib/python3.11/site-packages/lgpio.py
-ln -s /usr/lib/python3/dist-packages/lgpio-0.2.2.0.egg-info /home/pi/BierBot-Bricks-RaspberryPi/.env/lib/python3.11/site-packages/lgpio-0.2.2.0.egg-info
-ln -s /usr/lib/python3/dist-packages/_lgpio.cpython-311-aarch64-linux-gnu.so /home/pi/BierBot-Bricks-RaspberryPi/.env/lib/python3.11/site-packages/_lgpio.cpython-311-aarch64-linux-gnu.so
+ln -s /usr/lib/python3/dist-packages/lgpio.py $VIRTUAL_ENV/lib/python3.11/site-packages/lgpio.py
+ln -s /usr/lib/python3/dist-packages/lgpio-0.2.2.0.egg-info $VIRTUAL_ENV/lib/python3.11/site-packages/lgpio-0.2.2.0.egg-info
+ln -s /usr/lib/python3/dist-packages/_lgpio.cpython-311-aarch64-linux-gnu.so $VIRTUAL_ENV/lib/python3.11/site-packages/_lgpio.cpython-311-aarch64-linux-gnu.so
 
 sudo python3 setup.py
 ```
