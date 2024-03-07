@@ -46,6 +46,8 @@ If don't want to do all the electronics/wiring yourself, check out [this alterna
 
 ## Getting started
 
+### Raspberry Pi OS (Bullseye)
+
 Open a commandline (<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>), navigate to your desired folder (e.g. `cd ~/Desktop`) and run the following commands:
 
 ```bash
