@@ -34,8 +34,16 @@ config = {
     required=1,
 )
 @click.option("--relays", "-r", prompt="How many relays do you want to configure?", required=1)
+
 def main(apikey: str, platform: str, relays: int) -> None:
     """Simple program that greets NAME for a total of COUNT times."""
+    
+    # Get the original UID and GID if running with sudo
+    uid = int(os.getenv("SUDO_UID", os.getuid()))
+    gid = int(os.getenv("SUDO_GID", os.getgid()))
+    print(f"UID: {uid}")
+    print(f"GID: {gid}")
+
     config["meta"]["platform"] = platform  # type: ignore [attr-defined,index]
 
     for i in range(0, int(relays)):
@@ -66,6 +74,9 @@ def main(apikey: str, platform: str, relays: int) -> None:
     config["apikey"] = apikey
     config["device_id"] = "python_" + platform + "_" + str(uuid.uuid1())
 
+    # Call is_bookworm to determine if the OS is bookworm
+    bookworm_flag = is_bookworm()
+
     create_autostart = click.prompt(
         f"Do you want us to add the BierBot Bricks service to autostart / bootup?",
         default="y",
@@ -78,7 +89,10 @@ def main(apikey: str, platform: str, relays: int) -> None:
         click.echo("creating autostart file ./sys/bierbot.service...")
 
         # Using readlines()
-        template_file = open("./sys/bierbot.service.template", "r")
+        if bookworm_flag:
+            template_file = open("./sys/bierbot.service.bookworm.template", "r")
+        else:
+            template_file = open("./sys/bierbot.service.template", "r")
         lines = template_file.readlines()
         lines_ready = [line.replace("$$$REPO_ROOT$$$", current_directory) for line in lines]
         template_file.close()
@@ -87,6 +101,7 @@ def main(apikey: str, platform: str, relays: int) -> None:
         out_file = open("./sys/bierbot.service", "w")
         out_file.writelines(lines_ready)
         out_file.close()
+        os.chown("./sys/bierbot.service", uid, gid)
 
         click.echo("copying service file to final location...")
         res = os.system("sudo cp ./sys/bierbot.service /etc/systemd/system/bierbot.service")
@@ -106,6 +121,23 @@ def main(apikey: str, platform: str, relays: int) -> None:
     )
 
     if create_autostart and start_ui:
+
+        # Define the directory and file paths
+        directory = os.path.expanduser("~/.config/autostart")
+        file_path = os.path.join(directory, "bierbot.desktop")
+
+        # Create the directory if it doesn't exist
+        os.makedirs(directory, exist_ok=True)
+
+        # Open the file, overwriting any old one, and write initial lines
+        with open(file_path, "w") as file:
+            file.write("[Desktop Entry]\n")
+            file.write("Type=Application\n")
+        
+        # Set ownership of ~/.config/autostart/bierbot.desktop to current user
+        os.chown(directory, uid, gid)
+        os.chown(file_path, uid, gid)
+
         start_fullscreen = click.prompt(
             f"Do you want the status screen to be started in fullscreen?",
             default=True,
@@ -113,16 +145,11 @@ def main(apikey: str, platform: str, relays: int) -> None:
         )
 
         if start_fullscreen:
-            # sudo tee necessary instead of &>> because of "sudo" requirements
-            os.system(
-                'echo "chromium-browser --start-fullscreen --disable-session-crashed-bubble --disable-infobars '
-                'https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart'
-            )
+            with open(file_path, "a") as file:
+                file.write("Exec=chromium-browser --start-maximized --start-fullscreen --disable-session-crashed-bubble --disable-infobars https://bricks.bierbot.com/#/status\n")
         else:
-            os.system(
-                'echo "chromium-browser --disable-session-crashed-bubble --disable-infobars '
-                'https://bricks.bierbot.com/#/status" | sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart'
-            )
+            with open(file_path, "a") as file:
+                file.write("Exec=chromium-browser --disable-session-crashed-bubble --disable-infobars https://bricks.bierbot.com/#/status\n")
 
     config["start_ui"] = start_ui
     config["start_fullscreen"] = start_fullscreen
@@ -139,6 +166,13 @@ def main(apikey: str, platform: str, relays: int) -> None:
         yaml.dump(config, outfile, default_flow_style=False)
         click.echo("config file bricks.yml created.")
 
+    with open("bricks.log", "w"):
+        os.utime("bricks.log", None)
+        
+    # Set ownership of bricks.yaml to current user
+    os.chown("bricks.yaml", uid, gid)
+    os.chown("bricks.log", uid, gid)
+
     reboot = click.confirm(
         f"all done. Setup will exit. Do you want to reboot your {platform} (recommended)?",
         default=True,
@@ -146,6 +180,17 @@ def main(apikey: str, platform: str, relays: int) -> None:
     if reboot:
         click.echo("rebooting now")
         res = os.system("sudo shutdown -r now")
+
+# Module to check for bookworm
+def is_bookworm():
+    try:
+        with open("/etc/os-release", "r") as file:
+            for line in file:
+                if line.lower().startswith("version_codename=bookworm"):
+                    return True
+    except FileNotFoundError:
+        pass
+    return False
 
 
 if __name__ == "__main__":
