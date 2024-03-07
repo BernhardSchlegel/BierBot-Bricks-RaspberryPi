@@ -83,7 +83,7 @@ Setup will guide you through the installation. :information_source: Hint: You ca
 
 Tested on Python 3.11
 
-Note if you a using Bookworm with the 'Official 7" Touchscreen' and case which mounts the screen upside down.  There is currently an incompatibilty with the default wayland desktop engine and rotating the display and touchscreen.  You will need to use raspi-config to change the desktop back to  X11 (https://www.raspberrypi.com/documentation/computers/configuration.html#the-raspi-config-tool).
+<b>NOTE:</b> if you a using Bookworm with the 'Official 7" Touchscreen' and case which mounts the screen upside down.  There is currently an incompatibilty with the default wayland desktop engine and rotating the display and touchscreen.  You will need to use raspi-config to change the desktop back to  X11 (https://www.raspberrypi.com/documentation/computers/configuration.html#the-raspi-config-tool).
 
 ## Raspberry Pi compatibility 
 
