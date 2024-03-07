@@ -82,7 +82,7 @@ sudo python3 setup.py
 
 Setup will guide you through the installation. :information_source: Hint: You can accept the proposed default value by hitting <kbd>Return</kbd>.
 
-Tested on Python 3.11
+Tested on Python 3.11 
 
 ## Raspberry Pi compatibility 
 
