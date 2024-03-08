@@ -83,8 +83,28 @@ Setup will guide you through the installation. :information_source: Hint: You ca
 
 Tested on Python 3.11
 
-#### Rotating the "Official 7" Touch Display
-<b>NOTE:</b> if you a using Bookworm with the 'Official 7" Touchscreen' and case which mounts the screen upside down.  There is currently an incompatibilty with the default wayland desktop engine and rotating the display and touchscreen.  You will need to use raspi-config to change the desktop back to  X11 (https://www.raspberrypi.com/documentation/computers/configuration.html#the-raspi-config-tool).
+#### Rotating the "Official 7" Touch Display with Wayland
+Some cases mount the display upside down.  There were originally issues with rotating the display and touchscreen running Wayland Desktop.  This appears to be fixed. Here are the steps to "flip" the display and touchscreen:
+
+1. Update OS to latest and reboot
+```bash
+sudo apt update
+sudo apt upgrade
+sudo reboot
+```
+2. Change screen orientation either from the desktop (https://www.raspberrypi.com/documentation/accessories/display.html#changing-the-screen-orientation) or edit ~/.config/wayfire.ini
+```bash
+[output:DSI-1]
+mode = 800x480@60049
+position = 0,0
+transform = 180
+```
+3. In some cases you may need to add the following to your /boot/firmware/config.txt to get the touchscreen to properly rotate.  Use this as a last resort.
+```bash
+[all]
+dtoverlay=vc4-kms-dsi-7inch,invx,invy
+display_auto_detect=1
+```
 
 ## Raspberry Pi compatibility 
 
