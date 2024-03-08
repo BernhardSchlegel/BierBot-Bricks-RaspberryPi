@@ -46,6 +46,8 @@ If don't want to do all the electronics/wiring yourself, check out [this alterna
 
 ## Getting started
 
+### Raspberry Pi OS (Bullseye)
+
 Open a commandline (<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>), navigate to your desired folder (e.g. `cd ~/Desktop`) and run the following commands:
 
 ```bash
@@ -58,6 +60,51 @@ sudo python3 setup.py
 Setup will guide you through the installation. :information_source: Hint: You can accept the proposed default value by hitting <kbd>Return</kbd>.
 
 Tested on Python 3.7
+
+### Raspberry Pi OS (Bookworm)
+
+Open a commandline (<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd>), navigate to your desired folder (e.g. `cd ~/Desktop`) and run the following commands:
+
+```bash
+git clone https://github.com/BernhardSchlegel/BierBot-Bricks-RaspberryPi.git
+cd BierBot-Bricks-RaspberryPi
+
+# Setup python virtual environment. Required for Bookworm.  See link for more: https://www.raspberrypi.com/documentation/computers/os.html#python-on-raspberry-pi
+python3 -m venv .env && source .env/bin/activate && pip install -r requirements_bookworm.txt
+
+# Link virtual environment to system-level lgpio package. The lgpio package in combination with rpi-lgpio replaces RPi.GPIO in bookworm. The lgpio package is managed using apt which is not supported in virtual environments. This gets around that issue for now.
+ln -s /usr/lib/python3/dist-packages/lgpio.py $VIRTUAL_ENV/lib/python3.11/site-packages/lgpio.py
+ln -s /usr/lib/python3/dist-packages/lgpio-0.2.2.0.egg-info $VIRTUAL_ENV/lib/python3.11/site-packages/lgpio-0.2.2.0.egg-info
+ln -s /usr/lib/python3/dist-packages/_lgpio.cpython-311-aarch64-linux-gnu.so $VIRTUAL_ENV/lib/python3.11/site-packages/_lgpio.cpython-311-aarch64-linux-gnu.so
+
+sudo -E env PATH=$PATH python3 setup.py
+```
+Setup will guide you through the installation. :information_source: Hint: You can accept the proposed default value by hitting <kbd>Return</kbd>.
+
+Tested on Python 3.11
+
+#### Rotating the "Official 7" Touch Display with Wayland
+Some cases mount the display upside down.  There were originally issues with rotating the display and touchscreen running Wayland Desktop.  This appears to be fixed. Here are the steps to "flip" the display and touchscreen:
+
+1. Update OS to latest and reboot
+```bash
+sudo apt update
+sudo apt upgrade
+sudo reboot
+```
+2. Change screen orientation either from the desktop (https://www.raspberrypi.com/documentation/accessories/display.html#changing-the-screen-orientation) or edit ~/.config/wayfire.ini
+```bash
+[output:DSI-1]
+mode = 800x480@60049
+position = 0,0
+transform = 180
+```
+3. In some cases you may need to add the following to your /boot/firmware/config.txt to get the touchscreen to properly rotate.  Use this as a last resort.
+```bash
+[all]
+dtoverlay=vc4-kms-dsi-7inch,invx,invy
+display_auto_detect=1
+```
 
 ## Raspberry Pi compatibility 
 
