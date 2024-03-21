@@ -111,7 +111,7 @@ def request() -> None:
         key = f"a_bool_epower_{i}"
         value = getRelay(i)
         post_fields[key] = str(value)
-        logging.info(f"set relay {i} to {value}")
+        logging.info(f"set relay {i+1} to {value}")
 
     # add temperatures to request
     for i, sensor_id in enumerate(config["temperature_sensors"]):
@@ -128,7 +128,7 @@ def request() -> None:
                 temperature = -42
         value = temperature
         post_fields[key] = str(value)
-        logging.info(f"set tempsensor {i} with id {sensor_id} to {temperature}")
+        logging.info(f"set tempsensor {i+1} with id {sensor_id} to {temperature}")
 
     response = requests.get(url, params=post_fields)
 
@@ -148,11 +148,11 @@ def request() -> None:
                 if relay_key in json_response:
                     # relay_key is e.g. "epower_0_state"
                     new_relay_state = int(json_response[relay_key])
-                    logging.info(f"received new target state {new_relay_state} for {relay_key}")
+                    logging.info(f"received new target state {new_relay_state} for relay {i+1}")
                     setRelay(i, new_relay_state)
                 else:
                     logging.warning(
-                        f"relay key {relay_key} for relay idx={i} was expected but not in response. "
+                        f"relay key {relay_key} for relay {i+1} was expected but not in response. "
                         "This is normal before activation."
                     )
                     setRelay(i, 0)
